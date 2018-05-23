@@ -2,6 +2,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 //Questions picked at random on LeetCode.com
+//By: Ryan Dabir
 public class Problems {
 
     public static int[] twoSum(int[] nums, int target) {
