@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.Stack;
 
 //Questions picked at random on LeetCode.com
 //By: Ryan Dabir
@@ -79,6 +80,62 @@ public class Problems {
         return last;
     }
 
+    public static boolean isValid(String s) {
+
+        Stack<Character> stack = new Stack<>();
+
+        if (s.length()%2 != 0) {
+            return false;
+        }
+
+        for (int i = 0; i < s.length(); i++) {
+
+            char bracket = s.charAt(i);
+
+            if (bracket == '(' || bracket == '{' || bracket == '[' ) {
+                stack.push(bracket);
+            }
+            else if (bracket == ')') {
+                if (stack.empty() || stack.pop() != '(') {
+                    return false;
+                }
+            }
+            else if (bracket == ']') {
+                if (stack.empty() || stack.pop() != '[') {
+                    return false;
+                }
+            }
+            else if (bracket == '}') {
+                if (stack.empty() || stack.pop() != '{') {
+                    return false;
+                }
+            }
+        }
+        return stack.isEmpty();
+    }
+
+    public static boolean isPalindrome(int x) {
+
+        if (x < 0) {
+            return false;
+        }
+
+        Stack<Character> stack = new Stack<>();
+
+        char[] chars = ("" + x).toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            stack.push(chars[i]);
+        }
+
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] != stack.pop()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static void main(String[] args) {
 
         Scanner in = new Scanner(System.in);
@@ -127,6 +184,20 @@ public class Problems {
             d.next = e;
 
             reverseList(a);
+        }
+
+        if (num == 4) {
+            //https://leetcode.com/problems/valid-parentheses/description/
+
+            String testString = "))";
+            System.out.println(isValid(testString));
+        }
+
+        if (num == 5) {
+            //https://leetcode.com/problems/palindrome-number/description/
+
+            int testInt = -121;
+            System.out.println(isPalindrome(testInt));
         }
     }
 }
