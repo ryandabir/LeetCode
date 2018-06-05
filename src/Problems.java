@@ -139,55 +139,72 @@ public class Problems {
 
     public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
 
-        Stack<Integer> num1 = new Stack<>();
-        Stack<Integer> num2 = new Stack<>();
-        int count1 = 0;
-        int count2 = 0;
+        Stack<Integer> numStack1 = new Stack<>();
+        Stack<Integer> numStack2 = new Stack<>();
 
         while (l1 != null) {
-            num1.push(l1.val);
+            numStack1.push(l1.val);
             l1 = l1.next;
-            count1++;
         }
 
         while (l2 != null) {
-            num2.push(l2.val);
+            numStack2.push(l2.val);
             l2 = l2.next;
-            count2++;
         }
 
-        Integer[] array1 = new Integer[count1];
-        Integer[] array2 = new Integer[count2];
-
-        for(int i = 0; i < count1; i++) {
-            array1[i] = num1.pop();
+        long num1 = 0;
+        for (int i = numStack1.size(); i > 0; i--) {
+            num1 += numStack1.pop() * Math.pow(10, i-1);
         }
 
-        for(int i = 0; i < count2; i++) {
-            array2[i] = num2.pop();
+        long num2 = 0;
+        for (int i = numStack2.size(); i > 0; i--) {
+            num2 += numStack2.pop() * Math.pow(10, i-1);
         }
 
-        StringBuilder str1 = new StringBuilder();
-        for (int num : array1) {
-            str1.append(num);
-        }
-        int final1 = Integer.parseInt(str1.toString());
+        long answer = num1 + num2;
 
-        StringBuilder str2 = new StringBuilder();
-        for (int num : array2) {
-            str2.append(num);
-        }
-        int final2 = Integer.parseInt(str2.toString());
+        String answerStr = String.valueOf(answer);
 
-        int answer = final1 + final2;
+        ListNode prevNode = null;
+        for (int i = 0; i < answerStr.length(); i++) {
+            ListNode node = new ListNode(Integer.valueOf(answerStr.substring(i,i+1)));
 
-        String answerString = Integer.toString(answer);
-        int[] answerArray = new int[answerString.length()];
-        for (int i = 0; i < answerString.length(); i++) {
-            answerArray[i] = answerString.charAt(i) - '0';
+            node.next = prevNode;
+            prevNode = node;
         }
 
-        return null;
+        return prevNode;
+//        Integer[] array1 = new Integer[count1];
+//        Integer[] array2 = new Integer[count2];
+//
+//        for(int i = 0; i < count1; i++) {
+//            array1[i] = num1.pop();
+//        }
+//
+//        for(int i = 0; i < count2; i++) {
+//            array2[i] = num2.pop();
+//        }
+//
+//        StringBuilder str1 = new StringBuilder();
+//        for (int num : array1) {
+//            str1.append(num);
+//        }
+//        int final1 = Integer.parseInt(str1.toString());
+//
+//        StringBuilder str2 = new StringBuilder();
+//        for (int num : array2) {
+//            str2.append(num);
+//        }
+//        int final2 = Integer.parseInt(str2.toString());
+//
+//        int answer = final1 + final2;
+//
+//        String answerString = Integer.toString(answer);
+//        int[] answerArray = new int[answerString.length()];
+//        for (int i = 0; i < answerString.length(); i++) {
+//            answerArray[i] = answerString.charAt(i) - '0';
+//        }
     }
 
     public static int lengthOfLongestSubstring(String s) {
@@ -290,17 +307,28 @@ public class Problems {
             //https://leetcode.com/problems/add-two-numbers/description/
             //uncompleted
 
-            ListNode a = new ListNode(2);
-            ListNode b = new ListNode(4);
-            a.next = b;
-            ListNode c = new ListNode(3);
-            b.next = c;
+            ListNode a = new ListNode(9);
 
-            ListNode d = new ListNode(5);
-            ListNode e = new ListNode(6);
+            ListNode d = new ListNode(1);
+            ListNode e = new ListNode(9);
             d.next = e;
-            ListNode f = new ListNode(4);
+            ListNode f = new ListNode(9);
             e.next = f;
+            ListNode g = new ListNode(9);
+            f.next = g;
+            ListNode h = new ListNode(9);
+            g.next = h;
+            ListNode i = new ListNode(9);
+            h.next = i;
+            ListNode j = new ListNode(9);
+            i.next = j;
+            ListNode k = new ListNode(9);
+            j.next = k;
+            ListNode l = new ListNode(9);
+            k.next = l;
+            ListNode m = new ListNode(9);
+            l.next = m;
+
 
             addTwoNumbers(a, d);
         }
