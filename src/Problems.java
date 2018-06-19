@@ -1,7 +1,4 @@
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Stack;
+import java.util.*;
 
 //Questions picked at random on LeetCode.com
 //By: Ryan Dabir
@@ -175,36 +172,6 @@ public class Problems {
         }
 
         return prevNode;
-//        Integer[] array1 = new Integer[count1];
-//        Integer[] array2 = new Integer[count2];
-//
-//        for(int i = 0; i < count1; i++) {
-//            array1[i] = num1.pop();
-//        }
-//
-//        for(int i = 0; i < count2; i++) {
-//            array2[i] = num2.pop();
-//        }
-//
-//        StringBuilder str1 = new StringBuilder();
-//        for (int num : array1) {
-//            str1.append(num);
-//        }
-//        int final1 = Integer.parseInt(str1.toString());
-//
-//        StringBuilder str2 = new StringBuilder();
-//        for (int num : array2) {
-//            str2.append(num);
-//        }
-//        int final2 = Integer.parseInt(str2.toString());
-//
-//        int answer = final1 + final2;
-//
-//        String answerString = Integer.toString(answer);
-//        int[] answerArray = new int[answerString.length()];
-//        for (int i = 0; i < answerString.length(); i++) {
-//            answerArray[i] = answerString.charAt(i) - '0';
-//        }
     }
 
     public static int lengthOfLongestSubstring(String s) {
@@ -239,10 +206,136 @@ public class Problems {
         return answer;
     }
 
+    public static String longestPalindrome(String s) {
+
+        if (s.length() == 1 || s.length() == 0) {
+            return s;
+        }
+
+        int length = s.length();
+        int upperLimit = 0;
+
+        int start = -1;
+        int end = -1;
+        int bestStart = -1;
+        int bestEnd = -1;
+
+        for (int i = 0; i < length; i++) {
+            start = i;
+            int lowerLimit = i;
+            upperLimit = 0;
+            for (int j = length-1; j >= 0; j--) {
+                if (lowerLimit == j || lowerLimit > j) {
+                    if(end-start > bestEnd - bestStart) {
+                        bestStart = start;
+                        bestEnd = end;
+                        break;
+                    }
+                }
+                else if(s.charAt(lowerLimit++) == s.charAt(j)) {
+                    if (end == -1) {
+                        end = j;
+                    }
+                }
+                else {
+                    end = -1;
+                    lowerLimit = i;
+                    j = length-1-upperLimit++;
+                }
+            }
+
+        }
+
+        if(bestEnd == -1) {
+            return s.substring(0,1);
+        }
+
+        return s.substring(bestStart,bestEnd+1);
+    }
+
+    public static int strStr(String haystack, String needle) {
+
+        if (needle.length() == 0) {
+            return 0;
+        }
+
+        if(needle.length() > haystack.length()) {
+            return -1;
+        }
+
+        for (int i = 0; i+needle.length() <= haystack.length(); i++) {
+            if (haystack.charAt(i) == needle.charAt(0)) {
+                String subStr = haystack.substring(i, i + needle.length());
+                if (subStr.equals(needle)) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public static int singleNumber(int[] nums) {
+
+        ArrayList<Integer> list = new ArrayList<>();
+        int index;
+
+        for (int num: nums) {
+            if (!list.contains(num)) {
+                list.add(num);
+            }
+            else if (list.contains(num)) {
+                index = list.indexOf(num);
+                list.remove(index);
+            }
+        }
+
+        return list.get(0);
+    }
+
+    public static int maxSubArray(int[] nums) {
+
+        int largestSum = 0;
+        int largestSumCurrent = 0;
+        boolean first = true;
+
+        for (int i = 0; i < nums.length; i++) {
+            int sum = nums[i];
+            largestSumCurrent = nums[i];
+            for (int j = i+1; j < nums.length; j++) {
+                sum += nums[j];
+                if (sum > largestSumCurrent) {
+                    largestSumCurrent = sum;
+                }
+            }
+            if (largestSumCurrent > largestSum) {
+                largestSum = largestSumCurrent;
+                first = false;
+            }
+            else if (first) {
+                largestSum = largestSumCurrent;
+                first = false;
+            }
+        }
+
+        return largestSum;
+    }
+
+    public static int maxDepth(TreeNode root) {
+
+        if (root == null) {
+            return 0;
+        }
+
+        int leftDepth = maxDepth(root.left);
+        int rightDepth = maxDepth(root.right);
+
+        return Math.max(leftDepth,rightDepth) + 1;
+    }
+
     public static void main(String[] args) {
 
         Scanner in = new Scanner(System.in);
-        System.out.println("Enter question you want to run: ");
+        System.out.print("Enter question you want to run: ");
         int num = in.nextInt();
 
         if (num == 1) {
@@ -329,7 +422,6 @@ public class Problems {
             ListNode m = new ListNode(9);
             l.next = m;
 
-
             addTwoNumbers(a, d);
         }
 
@@ -338,6 +430,52 @@ public class Problems {
 
             String testString = "";
             System.out.println(lengthOfLongestSubstring(testString));
+        }
+
+        if (num == 8) {
+            //https://leetcode.com/problems/longest-palindromic-substring/description/
+            //NOT COMPLETED
+
+            String testString = "aaabaaaa";
+            System.out.println(longestPalindrome(testString));
+        }
+
+        if (num == 9) {
+            //https://leetcode.com/problems/implement-strstr/description/
+
+            String testString = "mis";
+            String testString2 = "ll";
+            System.out.println(strStr(testString, testString2));
+        }
+
+        if (num == 10) {
+            //https://leetcode.com/problems/single-number/description/
+
+            int[] nums = {4,1,2,1,2};
+            System.out.println(singleNumber(nums));
+        }
+
+        if (num == 11) {
+            //https://leetcode.com/problems/maximum-subarray/description/
+
+            int [] nums = {1,2};
+            System.out.println(maxSubArray(nums));
+        }
+
+        if (num == 12) {
+            //https://leetcode.com/problems/maximum-depth-of-binary-tree/description/
+
+            TreeNode root = new TreeNode(3);
+            TreeNode node1 = new TreeNode(9);
+            root.left = node1;
+            TreeNode node2 = new TreeNode(20);
+            root.right = node2;
+            TreeNode node3 = new TreeNode(15);
+            node2.left = node3;
+            TreeNode node4 = new TreeNode(7);
+            node2.right = node4;
+
+            System.out.println(maxDepth(root));
         }
     }
 }
